@@ -1,5 +1,11 @@
 package dnamobile.ca.a2dgamejavadroid;
 
+import static dnamobile.ca.a2dgamejavadroid.Dpad.CENTER;
+import static dnamobile.ca.a2dgamejavadroid.Dpad.DOWN;
+import static dnamobile.ca.a2dgamejavadroid.Dpad.LEFT;
+import static dnamobile.ca.a2dgamejavadroid.Dpad.RIGHT;
+import static dnamobile.ca.a2dgamejavadroid.Dpad.UP;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.Resources;
@@ -7,6 +13,8 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,6 +22,7 @@ import android.view.WindowManager;
 public class MainActivity extends AppCompatActivity {
 
     GameView gameView;
+    Dpad dpad = new Dpad();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,53 @@ public class MainActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         }
         setContentView(gameView);
+    }
+
+    /*@Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        return super.onKeyUp(keyCode, event);
+    }*/
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+
+        if (Dpad.isDpadDevice(event)) {
+            int press = dpad.getDirectionPressed(event);
+            gameView.buttonPressed = press;
+            switch (press) {
+                case LEFT:
+                    // Do something for LEFT direction press
+                    gameView.player.currentDirection = "left";
+                    return false;
+                case RIGHT:
+                    // Do something for RIGHT direction press
+                    gameView.player.currentDirection = "right";
+                    return false;
+                case UP:
+                    // Do something for UP direction press
+                    gameView.player.currentDirection = "up";
+                    return false;
+                case DOWN:
+                    // Do something for UP direction press
+                    gameView.player.currentDirection = "down";
+                    return false;
+                case CENTER:
+                    // Do something for UP direction press
+                    gameView.player.currentDirection = "bb";
+                    return true;
+            }
+        }
+        return super.onGenericMotionEvent(event);
+    }
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        gameView.player.currentDirection = "";
+        return super.onKeyUp(keyCode, event);
     }
 
 }

@@ -1,15 +1,25 @@
 package dnamobile.ca.a2dgamejavadroid;
 
+import static dnamobile.ca.a2dgamejavadroid.Dpad.DOWN;
+import static dnamobile.ca.a2dgamejavadroid.Dpad.LEFT;
+import static dnamobile.ca.a2dgamejavadroid.Dpad.RIGHT;
+import static dnamobile.ca.a2dgamejavadroid.Dpad.UP;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
+
+import dnamobile.ca.a2dgamejavadroid.Entities.Player;
+import dnamobile.ca.a2dgamejavadroid.World.TileManager;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -21,6 +31,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public int maxTilesX = 0;
     public int maxTilesY = 0;
     public int cameraWidth,cameraHeight = 0;
+    public int buttonPressed = 0;
+
+    public Player player;
+    public TileManager tileManager;
+
+
     public GameView(Context context) {
         super(context);
         setupGameView();
@@ -28,14 +44,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void update(){
-
+        player.update();
     }
 
     public void draw(Canvas canvas){
         super.draw(canvas);
-        canvas.drawRect(0,0,cameraWidth,cameraHeight,textPaint);
-        canvas.drawText(String.valueOf(cameraWidth)
-                + " " + String.valueOf(cameraHeight),50,50,textPaint);
+        tileManager.draw(canvas);
+        player.draw(canvas);
+        canvas.drawText(String.valueOf(buttonPressed),50,50,textPaint);
     }
 
     public void setupGameView(){
@@ -47,7 +63,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         tileSize = 100;
         cameraWidth = getContext().getResources().getDisplayMetrics().widthPixels;
         cameraHeight = getContext().getResources().getDisplayMetrics().heightPixels + getNavbarHeight();
+        maxTilesX = 50;
+        maxTilesY = 50;
+        player = new Player(this);
+        tileManager = new TileManager(this);
+
     }
+
+
+
+
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
