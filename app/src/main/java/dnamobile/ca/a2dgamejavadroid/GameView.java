@@ -32,6 +32,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public int maxTilesY = 0;
     public int cameraWidth,cameraHeight = 0;
     public int buttonPressed = 0;
+    public int buttonReleased = 0;
+    public boolean checkbuttonpressed = false;
 
     public Player player;
     public TileManager tileManager;
@@ -51,7 +53,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         tileManager.draw(canvas);
         player.draw(canvas);
-        canvas.drawText(String.valueOf(buttonPressed),50,50,textPaint);
+        canvas.drawText(String.valueOf(buttonPressed) + " " + String.valueOf(buttonReleased),50,50,textPaint);
     }
 
     public void setupGameView(){

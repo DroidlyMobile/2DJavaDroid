@@ -27,20 +27,50 @@ public class Player extends EntityInfo{
     }
 
     public void update(){
+        checkButtonSetDirection();
+    }
+
+    private void checkButtonSetDirection() {
+        if (entityRight){
+            currentDirection = "right";
+            defaultDirection = "right";
+        }else if (entityLeft){
+            currentDirection = "left";
+            defaultDirection = "left";
+        }else if (entityUp){
+            currentDirection = "up";
+            defaultDirection = "up";
+        }else if (entityDown){
+            currentDirection = "down";
+            defaultDirection = "down";
+        }else if (entityMining){
+            currentDirection = "mining";
+        }else if (!gameView.checkbuttonpressed){
+            currentDirection = "buttonreleased";
+            animNum = 1;
+            animCount = 0;
+        }
         checkDirection();
-        updateAnimation();
+
     }
     public void checkDirection(){
-        if (currentDirection.equals("right")){
-            posX += speed;
-        }else if (currentDirection.equals("left")){
-            posX -= speed;
-        }else if (currentDirection.equals("up")){
-            posY -= speed;
-        }else if (currentDirection.equals("down")){
-            posY += speed;
+        switch (currentDirection){
+            case "right":
+                posX += speed;
+                break;
+            case "left":
+                posX -= speed;
+                break;
+            case "up":
+                posY -= speed;
+                break;
+            case "down":
+                posY += speed;
+                break;
         }
+        updateAnimation();
     }
+
     public void updateAnimation(){
         animCount ++;
         if (animCount > 12){

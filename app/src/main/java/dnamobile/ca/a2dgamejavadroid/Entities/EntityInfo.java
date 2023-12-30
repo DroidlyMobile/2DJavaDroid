@@ -23,6 +23,9 @@ public class EntityInfo {
     public String currentDirection = "down";
     public String defaultDirection = "down";
 
+    public boolean entityLeft,entityRight,entityUp,entityDown = false;
+    public boolean entityMining = false;
+
     public void draw(Canvas canvas){
         canvas.drawBitmap(defaultImg,screenX,screenY,null);
     }
